@@ -7,7 +7,7 @@ Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle C
 ## Contenido
 [1 - Creación y configuración del entorno](#1---creacion-y-configuracion-del-entorno)  
 [1.1 - Creación de la Autonomous AI Database](#11---creacion-de-la-autonomous-ai-database)  
-[1.2 Creación de AI Data Platform](#12-creacion-de-ai-data-platform)  
+[1.2 Creación de AI Data Platform](#sec-1.2)  
 [2 - Ingesta de datos](#2---ingesta-de-datos)  
 [2.1 Ingesta de datos vía Autonomous](#21-ingesta-de-datos-via-autonomous)  
 [2.2 Ingesta de datos vía AIDP](#22-ingesta-de-datos-via-aidp)  
@@ -65,6 +65,7 @@ Espera hasta que el aprovisionamiento finalice y la base de datos quede activa.
 
 <img width="1883" height="431" alt="image-9" src="https://github.com/user-attachments/assets/0df54478-57a7-4591-bc1c-fc7a4896d838" />
 
+<a id="sec-1.2"></a>
 #### 1.2 Creación de AI Data Platform
 
 Al igual que con la base de datos, vamos a iniciar la creación de la plataforma de datos. En ella podremos crear un catálogo, administrar volúmenes, manipular datos e incluso crear aplicaciones inteligentes. La plataforma de datos es el eje central de una buena estrategia de datos. Para iniciar la creación, entra al menú lateral y busca `Analytics & AI`; al hacer clic en esa opción, accede al servicio `AI Data Platform Workbench`.
