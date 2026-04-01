@@ -5,25 +5,26 @@
 Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle Cloud Infrastructure.
 
 ## Contenido
-[1 - Creación y configuración del entorno](#1---creacion-y-configuracion-del-entorno)  
-[1.1 - Creación de la Autonomous AI Database](#11---creacion-de-la-autonomous-ai-database)  
+[1 - Creación y configuración del entorno](#sec-1)  
+[1.1 - Creación de la Autonomous AI Database](#sec-1.1)  
 [1.2 Creación de AI Data Platform](#sec-1.2)  
-[2 - Ingesta de datos](#2---ingesta-de-datos)  
-[2.1 Ingesta de datos vía Autonomous](#21-ingesta-de-datos-via-autonomous)  
-[2.2 Ingesta de datos vía AIDP](#22-ingesta-de-datos-via-aidp)  
-[2.3 Creación de un catálogo dentro de AIDP](#23-creacion-de-un-catalogo-dentro-de-aidp)  
-[2.4 Importación del notebook del laboratorio en el workspace](#24-importacion-del-notebook-del-laboratorio-en-el-workspace)  
-[2.5 Importación del notebook para la sesión 2](#25-importacion-del-notebook-para-la-sesion-2)  
+[2 - Ingesta de datos](#sec-2)  
+[2.1 Ingesta de datos vía Autonomous](#sec-2.1)  
+[2.2 Ingesta de datos vía AIDP](#sec-2.2)  
+[2.3 Creación de un catálogo dentro de AIDP](#sec-2.3)  
+[2.4 Importación del notebook del laboratorio en el workspace](#sec-2.4)  
+[2.5 Importación del notebook para la sesión 2](#sec-2.5)  
 
 
 ---
+<a id="sec-1"></a>
 ### Paso 1 - Creación y configuración del entorno  
 
 
 
 En este paso vamos a inicializar los servicios utilizados, crear una Autonomous AI Database y una AI Data Platform directamente desde la consola de OCI.  
 
-
+<a id="sec-1.1"></a>
 #### 1.1 - Creación de la Autonomous AI Database
 
 
@@ -93,7 +94,11 @@ En ese momento serás redirigido a la pantalla inicial del servicio, con tu AIDP
 <img width="1457" height="328" alt="image-17" src="https://github.com/user-attachments/assets/ece11ab6-2d0d-46e8-a58c-fc60d5402375" />
 
 ---
-### Paso 2 - Ingesta de datos
+<a id="sec-2"></a>
+### Paso 2 - Ingesta de datos  
+
+
+<a id="sec-2.1"></a>
 #### 2.1 Ingesta de datos vía Autonomous
 
 En este laboratorio haremos dos tipos de ingesta: una directamente en Autonomous y otra en AIDP (sección 2.2). Accede a tu instancia activa en Autonomous.
@@ -196,7 +201,7 @@ Se abrirá automáticamente una pestaña lateral con los datos de la tabla, colu
 
 <img width="1913" height="1031" alt="image-24" src="https://github.com/user-attachments/assets/e4a22a20-e804-43ea-a52e-52ad7c777d1e" />
 
-
+<a id="sec-2.2"></a>
 #### 2.2 Ingesta de datos vía AIDP
 
 
@@ -215,7 +220,7 @@ Esta es la página principal de AIDP. En el menú lateral ya puedes ver tu catá
 <img width="1901" height="550" alt="image-27" src="https://github.com/user-attachments/assets/580b399f-bd3a-4ef3-9233-5f8f95c59be4" />
 
 
-
+<a id="sec-2.3"></a>
 #### 2.3 Creación de un catálogo dentro de AIDP
 
 
@@ -244,7 +249,7 @@ Cuando finalice, ya podrás visualizar las tablas existentes en Autonomous con s
 <img width="368" height="175" alt="image-34" src="https://github.com/user-attachments/assets/7e69ac71-f59a-49a9-a180-7dacf528a33a" />
 
 
-
+<a id="sec-2.4"></a>
 #### 2.4 Importación del notebook del laboratorio en el workspace
 
 
@@ -287,7 +292,7 @@ Hasta que el cluster quede activo en el notebook.
 
 <img width="505" height="74" alt="image-44" src="https://github.com/user-attachments/assets/ac673755-9172-4751-b9db-e974a39baa82" /> <img width="490" height="77" alt="image-45" src="https://github.com/user-attachments/assets/447118ef-acff-4b1c-aa8b-c32c9a213cd4" />
 
-
+<a id="sec-2.5"></a>
 #### 2.5 Importación del notebook para la sesión 2
 
 
