@@ -5,15 +5,15 @@
 Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle Cloud Infrastructure.
 
 ## Contenido
-[1 - Creación y configuración del entorno](#sec-1)  
-[1.1 - Creación de la Autonomous AI Database](#sec-1.1)  
-[1.2 Creación de AI Data Platform](#sec-1.2)  
-[2 - Ingesta de datos](#sec-2)  
-[2.1 Ingesta de datos vía Autonomous](#sec-2.1)  
-[2.2 Ingesta de datos vía AIDP](#sec-2.2)  
-[2.3 Creación de un catálogo dentro de AIDP](#sec-2.3)  
-[2.4 Importación del notebook del laboratorio en el workspace](#sec-2.4)  
-[2.5 Importación del notebook para la sesión 2](#sec-2.5)  
+[1  Creación y configuración del entorno](#sec-1)  
+[1.1  Creación de la Autonomous AI Database](#sec-1.1)  
+[1.2  Creación de AI Data Platform](#sec-1.2)  
+[2  Ingesta de datos](#sec-2)  
+[2.1  Ingesta de datos vía Autonomous](#sec-2.1)  
+[2.2  Ingesta de datos vía AIDP](#sec-2.2)  
+[2.3  Creación de un catálogo dentro de AIDP](#sec-2.3)  
+[2.4  Importación del notebook del laboratorio en el workspace](#sec-2.4)  
+[2.5  Importación del notebook para la sesión 2](#sec-2.5)  
 
 
 ---
