@@ -161,7 +161,7 @@ CREATE TABLE BRONZE_WC_MATCHES (
 ````
 
 
-Ejecuta el comando con el botón verde "Run Statement".
+Ejecuta el comando con el botón verde `Run Statement`.
 
 <img width="1910" height="574" alt="image-21" src="/images/acccea84-7850-450b-925f-a1edeb35a516" />
 
@@ -192,7 +192,7 @@ SELECT * FROM BRONZE_WC_MATCHES
 <img width="1508" height="568" alt="image-22" src="/images/6915ad7d-d8c7-4c55-8caa-1482bd686712" />
 
 
-También puedes verlo en la propia consola, buscando el nombre de la tabla en el panel lateral, haciendo clic derecho y seleccionando Open.
+También puedes verlo en la propia consola, buscando el nombre de la tabla en el panel lateral, haciendo clic derecho y seleccionando `Open`.
 
 <img width="722" height="523" alt="image-23" src="/images/02ed2fe2-b542-47a3-b849-77c009706b5e" />
 
@@ -224,17 +224,17 @@ Esta es la página principal de AIDP. En el menú lateral ya puedes ver tu catá
 #### 2.3 Creación de un catálogo dentro de AIDP
 
 
-Primero crearemos un catálogo apuntando al Autonomous que creamos antes. Para ello, haz clic en create en el menú lateral.
+Primero crearemos un catálogo apuntando al Autonomous que creamos antes. Para ello, haz clic en `create` en el menú lateral.
 
 <img width="1547" height="463" alt="image-28" src="/images/1f78b5f4-13cc-434e-a379-fc297cdc8ade" />
 
 
-El nombre de nuestro catálogo será DeepDiveCatalog_Bronze y usaremos conexión externa, seleccionando el Autonomous previamente creado. Completa el resto de la información como en la imagen.
+El nombre de nuestro catálogo será `DeepDiveCatalog_Bronze` y usaremos conexión externa, seleccionando el Autonomous previamente creado. Completa el resto de la información como en la imagen.
 
 <img width="1905" height="1026" alt="image-30" src="/images/03d7af96-a415-4f3a-80e7-184ae9704bd9" />
 
 
-Después de elegir el servicio, debes ingresar la misma contraseña de Autonomous en los campos de wallet y contraseña, y dejar el usuario como admin. Prueba la conexión antes de continuar con el botón de crear. Si es correcta, procede con la creación.
+Después de elegir el servicio, debes ingresar la misma contraseña de Autonomous en los campos de wallet y contraseña, y dejar el usuario como `admin`. Prueba la conexión antes de continuar con el botón de crear. Si es correcta, procede con la creación.
 
 <img width="1045" height="548" alt="image-32" src="/images/bf8b6c9a-dd04-41e3-8972-bf173f9f2f06" />
 
@@ -258,7 +258,7 @@ Para importar el notebook, primero accede al workspace desde el menú lateral.
 <img width="1908" height="552" alt="image-35" src="/images/7d79eb5d-b225-4e3b-ab52-1d16164bc6c8" />
 
 
-El workspace ya trae una carpeta llamada Shared con ejemplos. Para importar el notebook del laboratorio, primero debes descargarlo en tu máquina. Luego haz clic en el botón de upload (icono indicado en la imagen).
+El workspace ya trae una carpeta llamada `Shared` con ejemplos. Para importar el notebook del laboratorio, primero debes descargarlo en tu máquina. Luego haz clic en el botón de upload (icono indicado en la imagen).
 
 <img width="1907" height="432" alt="image-37" src="/images/37850300-084e-432b-84d9-7fd5cc83948a" />
 
@@ -273,17 +273,17 @@ El archivo se agregará inmediatamente al workspace. Ya puedes abrirlo haciendo 
 <img width="800" height="88" alt="image-39" src="/images/0a94086a-bf69-4213-ad3f-1a511f3e2702" />
 
 
-Al abrir el notebook, en la parte superior central verás no cluster attached. Llegamos así al último paso de configuración para poder realizar todos los laboratorios de las sesiones 1 y 2: crear el cluster. Haz clic en el botón de cluster (arriba a la derecha) y luego en Create Cluster.
+Al abrir el notebook, en la parte superior central verás `no cluster attached`. Llegamos así al último paso de configuración para poder realizar todos los laboratorios de las sesiones 1 y 2: crear el cluster. Haz clic en el botón de cluster (arriba a la derecha) y luego en `Create Cluster`.
 
 <img width="1647" height="413" alt="image-40" src="/images/624bb611-e2c6-45b4-96e7-070b9f42e091" />
 
 
-Se abrirá una pestaña; agrega el nombre y la configuración deseada. En nuestro caso usamos DeepDiveCluster, dejando la configuración por defecto y haciendo clic en Create.
+Se abrirá una pestaña; agrega el nombre y la configuración deseada. En nuestro caso usamos `DeepDiveCluster`, dejando la configuración por defecto y haciendo clic en `Create`.
 
 <img width="1323" height="998" alt="image-42" src="/images/5c162ec8-ef44-47b9-b82e-1b834e1f079a" />
 
 
-Espera a que el cluster se cree. Si no se adjunta automáticamente al notebook, vuelve al botón de cluster y busca attach a cluster, seleccionando el que acabas de crear.
+Espera a que el cluster se cree. Si no se adjunta automáticamente al notebook, vuelve al botón de cluster y busca `attach a cluster`, seleccionando el que acabas de crear.
 
 <img width="1315" height="301" alt="image-43" src="/images/09977d3e-af1c-49bf-9a81-9ad2ba7431f6" />
 
