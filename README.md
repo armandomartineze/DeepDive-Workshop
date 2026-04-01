@@ -5,15 +5,15 @@
 Para seguir este laboratorio, necesitas estar conectado a tu consola de Oracle Cloud Infrastructure.
 
 ## Contenido
-[1 - Creación y configuración del entorno](#1---creacion-y-configuracion-del-entorno)
-[1.1 - Creación de la Autonomous AI Database](#11---creacion-de-la-autonomous-ai-database)
-[1.2 Creación de AI Data Platform](#12-creacion-de-ai-data-platform)
-[2 - Ingesta de datos](#2---ingesta-de-datos)
-[2.1 Ingesta de datos vía Autonomous](#21-ingesta-de-datos-via-autonomous)
-[2.2 Ingesta de datos vía AIDP](#22-ingesta-de-datos-via-aidp)
-[2.3 Creación de un catálogo dentro de AIDP](#23-creacion-de-un-catalogo-dentro-de-aidp)
-[2.4 Importación del notebook del laboratorio en el workspace](#24-importacion-del-notebook-del-laboratorio-en-el-workspace)
-[2.5 Importación del notebook para la sesión 2](#25-importacion-del-notebook-para-la-sesion-2)
+[1 - Creación y configuración del entorno](#1---creacion-y-configuracion-del-entorno)  
+[1.1 - Creación de la Autonomous AI Database](#11---creacion-de-la-autonomous-ai-database)  
+[1.2 Creación de AI Data Platform](#12-creacion-de-ai-data-platform)  
+[2 - Ingesta de datos](#2---ingesta-de-datos)  
+[2.1 Ingesta de datos vía Autonomous](#21-ingesta-de-datos-via-autonomous)  
+[2.2 Ingesta de datos vía AIDP](#22-ingesta-de-datos-via-aidp)  
+[2.3 Creación de un catálogo dentro de AIDP](#23-creacion-de-un-catalogo-dentro-de-aidp)  
+[2.4 Importación del notebook del laboratorio en el workspace](#24-importacion-del-notebook-del-laboratorio-en-el-workspace)  
+[2.5 Importación del notebook para la sesión 2](#25-importacion-del-notebook-para-la-sesion-2)  
 
 
 ---
