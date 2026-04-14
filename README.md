@@ -7,6 +7,7 @@ En el workshop aprenderás a implementar el flujo de un agente con AI Agent Fact
 
 Los recursos que se desplegaran en el workshop se muestran en la siguiente arquitectura:
 
+![](/images/deepdive-arch.png)
 
 Dividimos la ejecución del workshop en los siguientes laboratorios:
 
