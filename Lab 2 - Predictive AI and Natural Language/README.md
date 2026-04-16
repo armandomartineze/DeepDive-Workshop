@@ -233,3 +233,8 @@ Con eso tendrás todos los notebooks necesarios para realizar las sesiones prác
 
 
 Ahora tienes un entorno completamente configurado y puedes seguir las instrucciones del propio Jupyter junto con el instructor para ejecutar los laboratorios.
+
+
+<a id="sec-3.3"></a>
+### Creación de Modelo de Machine Learning
+
