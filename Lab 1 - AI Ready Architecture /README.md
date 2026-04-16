@@ -23,6 +23,14 @@ En este paso vamos a inicializar los servicios utilizados, crear una Autonomous 
 
 Haz clic en el menú de hamburguesa, en la parte superior izquierda de la pantalla, para acceder al menú de servicios disponibles en OCI. Con el menú abierto, busca Oracle AI Database y Autonomous AI Database, y abre ese servicio.
 
+<svg width="230" height="230" viewBox="0 0 230 230" xmlns="http://www.w3.org/2000/svg">  
+  <!-- Optional: Add a white background (avoids transparent edges) -->  
+  <rect width="100%" height="100%" fill="white"/>  
+  <!-- Image placed with 15px padding (x=15, y=15) -->  
+  <image x="15" y="15" width="200" height="200" href="/images/15e75f59-ab1a-4395-afc0-f8c75fcd5b44" alt="Project Logo"/>  
+</svg>  
+
+
 <img width="1913" height="1230" alt="image" src="/images/15e75f59-ab1a-4395-afc0-f8c75fcd5b44" />  
 
 
