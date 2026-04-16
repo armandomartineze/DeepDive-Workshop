@@ -5,22 +5,24 @@
 En el laboratorio realizaras la ingesta de los datos en Oracle IA Database y en AI Data Platform, asi como la creación de un modelo de Machine Learning, necesitas haber ejecutado en laboratorio 1.
 
 ## Contenido
-[2  Ingesta de datos](#sec-2)  
-- [2.1  Ingesta de datos vía Autonomous](#sec-2.1)  
-- [2.2  Ingesta de datos vía AIDP](#sec-2.2)  
+[Ingesta de datos](#sec-2)  
+- [Ingesta de datos vía Autonomous](#sec-2.1)  
+- [Ingesta de datos vía AIDP](#sec-2.2)
+- [Creación de un catálogo dentro de AIDP](#sec-2.3)  
 
-[2.3  Creación de un catálogo dentro de AIDP](#sec-2.3)  
-- [2.4  Importación del notebook del laboratorio en el workspace](#sec-2.4)  
-- [2.5  Importación del notebook para la sesión 2](#sec-2.5)  
+[Ingenieria de Datos](#sec-3)
+- [Importación del notebook del laboratorio en el workspace](#sec-3.1)  
+- [Importación del notebook para la sesión 2](#sec-3.2)
+- [Creación de Modelo de Machine Learning](#sec-3.3) 
 
 
 ---
 <a id="sec-2"></a>
-### Paso 2 - Ingesta de datos  
+## Paso 2 - Ingesta de datos  
 
 
 <a id="sec-2.1"></a>
-#### 2.1 Ingesta de datos vía Autonomous
+#### Ingesta de datos vía Autonomous
 
 En este laboratorio haremos dos tipos de ingesta: una directamente en Autonomous y otra en AIDP (sección 2.2). Accede a tu instancia activa en Autonomous.
 
@@ -123,7 +125,7 @@ Se abrirá automáticamente una pestaña lateral con los datos de la tabla, colu
 <p align="center"><img width="80%" height="80%"  alt="image-24" src="/images/e4a22a20-e804-43ea-a52e-52ad7c777d1e" /></p><br>
 
 <a id="sec-2.2"></a>
-#### 2.2 Ingesta de datos vía AIDP
+### Ingesta de datos vía AIDP
 
 
 A continuación, haremos la ingesta del segundo dataset de otra forma, usando AIDP. Para eso, accede al AIDP creado anteriormente.
@@ -142,7 +144,7 @@ Esta es la página principal de AIDP. En el menú lateral ya puedes ver tu catá
 
 
 <a id="sec-2.3"></a>
-#### 2.3 Creación de un catálogo dentro de AIDP
+### Creación de un catálogo dentro de AIDP
 
 
 Primero crearemos un catálogo apuntando al Autonomous que creamos antes. Para ello, haz clic en `create` en el menú lateral.
@@ -169,9 +171,11 @@ Cuando finalice, ya podrás visualizar las tablas existentes en Autonomous con s
 
 <p align="center"><img width="40%" height="40%"  alt="image-34" src="/images/7e69ac71-f59a-49a9-a180-7dacf528a33a" /></p><br>
 
+<a id="sec-3"></a>
+## Paso 3 - Ingeniería de datos  
 
-<a id="sec-2.4"></a>
-#### 2.4 Importación del notebook del laboratorio en el workspace
+<a id="sec-3.1"></a>
+### Importación del notebook del laboratorio en el workspace
 
 
 Para importar el notebook, primero accede al workspace desde el menú lateral.
@@ -214,8 +218,8 @@ Hasta que el cluster quede activo en el notebook.
 <p align="center"><img width="50%" height="50%"  src="/images/ac673755-9172-4751-b9db-e974a39baa82" /> </p><br>
 <p align="center"><img width="50%" height="50%" alt="image-45" src="/images/447118ef-acff-4b1c-aa8b-c32c9a213cd4" /></p><br>
 
-<a id="sec-2.5"></a>
-#### 2.5 Importación del notebook para la sesión 2
+<a id="sec-3.2"></a>
+### Importación del notebook para la sesión 2
 
 
 Repite el mismo proceso de upload para el archivo Jupyter de la segunda sesión.
