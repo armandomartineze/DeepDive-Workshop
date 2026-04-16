@@ -6,11 +6,12 @@ En el laboratorio realizaras la ingesta de los datos en Oracle IA Database y en 
 
 ## Contenido
 [2  Ingesta de datos](#sec-2)  
-[2.1  Ingesta de datos vía Autonomous](#sec-2.1)  
-[2.2  Ingesta de datos vía AIDP](#sec-2.2)  
+- [2.1  Ingesta de datos vía Autonomous](#sec-2.1)  
+- [2.2  Ingesta de datos vía AIDP](#sec-2.2)  
+
 [2.3  Creación de un catálogo dentro de AIDP](#sec-2.3)  
-[2.4  Importación del notebook del laboratorio en el workspace](#sec-2.4)  
-[2.5  Importación del notebook para la sesión 2](#sec-2.5)  
+- [2.4  Importación del notebook del laboratorio en el workspace](#sec-2.4)  
+- [2.5  Importación del notebook para la sesión 2](#sec-2.5)  
 
 
 ---
