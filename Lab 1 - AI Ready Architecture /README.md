@@ -23,7 +23,7 @@ En este paso vamos a inicializar los servicios utilizados, crear una Autonomous 
 
 Haz clic en el menú de hamburguesa, en la parte superior izquierda de la pantalla, para acceder al menú de servicios disponibles en OCI. Con el menú abierto, busca Oracle AI Database y Autonomous AI Database, y abre ese servicio.
 
-<img width="1913" height="1030" alt="image" src="/images/15e75f59-ab1a-4395-afc0-f8c75fcd5b44" />  
+<img width="1913" height="1230" alt="image" src="/images/15e75f59-ab1a-4395-afc0-f8c75fcd5b44" />  
 
 
 Verifica que estés en el compartimento correcto (puedes crearla en cualquiera) y haz clic en el botón para crear Autonomous AI Database.
