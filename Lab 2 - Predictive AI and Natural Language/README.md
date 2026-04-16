@@ -1,4 +1,4 @@
-# Lab 2 - Predictive AI and Natural Language Data Acces
+# Lab 2 - Predictive AI and Natural Language Data Access
 
 
 
