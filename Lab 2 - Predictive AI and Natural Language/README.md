@@ -252,5 +252,71 @@ El primer paso es ejecutar el parrafo para leer un archivo desde alamcenamiento 
 
 <p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-3.png" /></p>
 
+Los siguientes dos parrafos crean funciones que mapea tipos de Spark a tipos SQL (STRING, INT, DOUBLE, etc.), y otra función que genera automáticamente el CREATE TABLE (DDL) usando el esquema del DataFrame y el nombre de la tabla como entrada:
 
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-4.png" /></p>
+
+Nuestro siguiente paso es limpiar nombres de columnas, convierte pandas a Spark, crea/reemplaza la tabla bronze y carga los datos:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-5.png" /></p>
+
+Vamos a mostrar la tabla bronze_fifa_players creada y muestra una vista previa de 5 filas:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-6.png" /></p>
+
+Calcula cuántos valores NULL hay por cada columna del DataFrame:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-7.png" /></p>
+
+Calcula cuántos valores inválidos (NULL o NaN) hay por columna:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-8.png" /></p>
+
+Carga la capa bronze y aplica limpieza: fecha, deduplicación, reemplazo de NaN y filtro de nombres nulos:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-9.png" /></p>
+
+Crea la edad del jugador, columna calculated_age, usando año actual menos año de nacimiento:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-10.png" /></p>
+
+Compara age vs calculated_age y muestra una muestra con la diferencia (age_diff):
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-11.png" /></p>
+
+Guarda el DataFrame limpio en la capa plata sobrescribiendo datos y esquema:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-12.png" /></p>
+
+Convierte overall_rating a entero y crea una categoría de rating (elite, bom, comum):
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-13.png" /></p>
+
+Selecciona las columnas finales relevantes para construir la capa oro:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-14.png" /></p>
+
+Guarda gold_df como tabla ouro_fifa_players en la capa oro:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-15.png" /></p>
+
+Genera ranking de jugadores por overall_rating y muestra el top 10:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-16.png" /></p>
+
+Calcula el valor promedio (value_euro) por nacionalidad y lo muestra:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-17.png" /></p>
+
+Filtra jugadores con alto potencial (>85) y toma campos clave para análisis:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-18.png" /></p>
+
+Calcula eficiencia económica (value_euro / wage_euro) por jugador:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-19.png" /></p>
+
+Guarda las tablas analíticas finales en la capa oro (top_players, value_by_country, high_potential, efficiency):
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-20.png" /></p>
 
