@@ -238,3 +238,19 @@ Ahora tienes un entorno completamente configurado y puedes seguir las instruccio
 <a id="sec-3.3"></a>
 ### Creación de Modelo de Machine Learning
 
+Vamos a comenzar con al ejecución de los notebooks, esto nos permitira ingestar trabajar con los datos, enriquecer la informaci{on y entrenar nuestro modelo.
+
+Selecciona el notebook "session1-AIDP.ipynb", haciendo clic en el nombre del archivo:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-1.png" /></p>
+
+Como puedes observar en la misma plataforma podemos ejecutar los notebooks, primero en la seccion izquierda selecciona la tabla de contenidos, aqui muestra todas las secciones de nuestro notebooks y podemos navegar de forma mas rapida. Tambien podemos observar que tener el menu para guardr, editar y ejecutar nuestro notebook. Y en el panel central podemos iniciar nuestro trabajo:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-2.png" /></p>
+
+El primer paso es ejecutar el parrafo para leer un archivo desde alamcenamiento por objetos de OCI y crear un dataset, haz clic en el icono para ejecutar:
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-3.png" /></p>
+
+
+
