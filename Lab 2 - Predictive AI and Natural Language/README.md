@@ -250,73 +250,263 @@ Como puedes observar en la misma plataforma podemos ejecutar los notebooks, prim
 
 El primer paso es ejecutar el parrafo para leer un archivo desde alamcenamiento por objetos de OCI y crear un dataset, haz clic en el icono para ejecutar:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-3.png" /></p>
+````import requests
+import pandas as pd
+
+url = "https://objectstorage.us-chicago-1.oraclecloud.com/n/idajmumkp9ca/b/DeepDiveWorkshopData/o/fifa_players.csv"
+
+response = requests.get(url)
+
+with open("/tmp/fifa_players.csv", "wb") as f:
+    f.write(response.content)
+
+csv = pd.read_csv("/tmp/fifa_players.csv")
+````
 
 Los siguientes dos parrafos crean funciones que mapea tipos de Spark a tipos SQL (STRING, INT, DOUBLE, etc.), y otra función que genera automáticamente el CREATE TABLE (DDL) usando el esquema del DataFrame y el nombre de la tabla como entrada:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-4.png" /></p>
+````
+def spark_to_spark_sql_type(spark_type):
+    t = str(spark_type)
+    
+    if "StringType" in t:
+        return "STRING"
+    elif "IntegerType" in t:
+        return "INT"
+    elif "LongType" in t:
+        return "BIGINT"
+    elif "DoubleType" in t:
+        return "DOUBLE"
+    elif "FloatType" in t:
+        return "FLOAT"
+    elif "BooleanType" in t:
+        return "BOOLEAN"
+    elif "DateType" in t:
+        return "DATE"
+    elif "TimestampType" in t:
+        return "TIMESTAMP"
+    else:
+        return "STRING"
+
+
+def generate_create_table(df, table_name):
+    columns = []
+    
+    for field in df.schema.fields:
+        col_name = field.name
+        col_type = spark_to_spark_sql_type(field.dataType)
+        columns.append(f"{col_name} {col_type}")
+    
+    cols_sql = ",\n  ".join(columns)
+    
+    ddl = f"""
+    CREATE TABLE {table_name} (
+      {cols_sql}
+    )
+    """
+    
+    return ddl
+````
 
 Nuestro siguiente paso es limpiar nombres de columnas, convierte pandas a Spark, crea/reemplaza la tabla bronze y carga los datos:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-5.png" /></p>
+````
+import re
+
+def clean_col(c):
+    return re.sub(r'[^a-zA-Z0-9_]', '', c.lower())
+
+# limpa nomes
+csv.columns = [clean_col(c) for c in csv.columns]
+
+# converte pra Spark DF
+spark_df = spark.createDataFrame(csv)
+
+# nome da tabela
+table_name = "bronze_fifa_players"
+
+# gera DDL
+ddl = generate_create_table(spark_df, table_name)
+
+spark.sql("USE deepdivecatalog_bronze.admin")
+spark.sql(f"""
+DROP TABLE IF EXISTS {table_name}
+""")
+# cria tabela
+spark.sql(ddl)
+
+# escreve dados
+spark_df.write \
+    .mode("append") \
+    .saveAsTable(table_name)
+````
 
 Vamos a mostrar la tabla bronze_fifa_players creada y muestra una vista previa de 5 filas:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-6.png" /></p>
+````df = spark.table("bronze_fifa_players")
+display(df.limit(5))
 
 Calcula cuántos valores NULL hay por cada columna del DataFrame:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-7.png" /></p>
+from pyspark.sql.functions import col, sum
+
+null_counts = df.select([
+    sum(col(c).isNull().cast("int")).alias(c)
+    for c in df.columns
+])
+
+display(null_counts)
+````
 
 Calcula cuántos valores inválidos (NULL o NaN) hay por columna:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-8.png" /></p>
+````from pyspark.sql.functions import isnan, col, sum
+
+display(df.select([
+    sum((col(c).isNull() | isnan(col(c))).cast("int")).alias(c)
+    for c in df.columns
+]))
+````
 
 Carga la capa bronze y aplica limpieza: fecha, deduplicación, reemplazo de NaN y filtro de nombres nulos:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-9.png" /></p>
+````from pyspark.sql.functions import col, to_date
+
+bronze_df = spark.table("deepdivecatalog_bronze.admin.bronze_fifa_players")
+
+silver_df = (bronze_df 
+    .withColumn("birth_date", to_date("birth_date", "M/d/yyyy")) 
+    .dropDuplicates(["full_name"])  # Remover jogadores duplicados
+	.na.replace(float("nan"), None)  # Valores inválidos substituídos por None
+	.filter(col("name").isNotNull()) # Remover colunas com nome vazio
+)
+````
 
 Crea la edad del jugador, columna calculated_age, usando año actual menos año de nacimiento:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-10.png" /></p>
+````from pyspark.sql.functions import current_date, year
+
+silver_df = silver_df.withColumn(
+    "calculated_age",
+    year(current_date()) - year(col("birth_date"))
+)
+````
 
 Compara age vs calculated_age y muestra una muestra con la diferencia (age_diff):
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-11.png" /></p>
+````from pyspark.sql.functions import col, current_date, months_between, abs
+
+silver_df.select(
+    "name",
+    "age",
+    "calculated_age",
+    abs(col("age") - col("calculated_age")).alias("age_diff")
+).show(5, truncate=False)
+````
 
 Guarda el DataFrame limpio en la capa plata sobrescribiendo datos y esquema:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-12.png" /></p>
+````silver_df.write \
+    .mode("overwrite") \
+    .option("overwriteSchema", "true") \
+    .saveAsTable("deepdivecatalog_prata.prata_fifa_players")
+````
 
 Convierte overall_rating a entero y crea una categoría de rating (elite, bom, comum):
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-13.png" /></p>
+````from pyspark.sql.functions import when
+from pyspark.sql.functions import col
+
+silver_df = silver_df.withColumn(
+    "overall_rating",
+    col("overall_rating").cast("int")
+)
+
+gold_df = silver_df.withColumn(
+    "rating_category",
+    when(col("overall_rating") >= 85, "elite")
+    .when(col("overall_rating") >= 75, "bom")
+    .otherwise("comum")
+)
+````
 
 Selecciona las columnas finales relevantes para construir la capa oro:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-14.png" /></p>
+````gold_df = gold_df.select(
+    "name",
+    "full_name",
+    "birth_date",
+    "calculated_age",
+    "nationality",
+    "overall_rating",
+    "potential",
+    "value_euro",
+    "wage_euro",
+    "preferred_foot",
+    "rating_category"
+)
+````
 
 Guarda gold_df como tabla ouro_fifa_players en la capa oro:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-15.png" /></p>
+````gold_df.write.mode("overwrite").saveAsTable(
+    "deepdivecatalog_ouro.ouro_fifa_players"
+)
+````
 
 Genera ranking de jugadores por overall_rating y muestra el top 10:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-16.png" /></p>
+````gold_top_players = gold_df \
+    .select("name", "nationality", "overall_rating", "value_euro") \
+    .orderBy(col("overall_rating").desc()) 
+	
+
+display(gold_top_players.limit(10))
+````
 
 Calcula el valor promedio (value_euro) por nacionalidad y lo muestra:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-17.png" /></p>
+````from pyspark.sql.functions import avg
+
+gold_value_by_country = gold_df \
+    .groupBy("nationality") \
+    .agg(avg("value_euro").alias("avg_value_euro"))
+
+display(gold_value_by_country)
+````
 
 Filtra jugadores con alto potencial (>85) y toma campos clave para análisis:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-18.png" /></p>
+````gold_high_potential = gold_df \
+    .filter(col("potential") > 85) \
+    .select("name", "age", "potential", "value_euro")  
+
+gold_high_potential.head()
+````
 
 Calcula eficiencia económica (value_euro / wage_euro) por jugador:
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-19.png" /></p>
+````gold_efficiency = gold_df \
+    .withColumn("value_per_wage", col("value_euro") / col("wage_euro")) \
+    .select("name", "value_per_wage", "overall_rating")
+````
 
 Guarda las tablas analíticas finales en la capa oro (top_players, value_by_country, high_potential, efficiency):
 
-<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-20.png" /></p>
+````gold_top_players.write.mode("overwrite").saveAsTable(
+    "deepdivecatalog_ouro.ouro_top_players"
+)
+
+gold_value_by_country.write.mode("overwrite").saveAsTable(
+    "deepdivecatalog_ouro.ouro_value_by_country"
+)
+
+gold_high_potential.write.mode("overwrite").saveAsTable(
+    "deepdivecatalog_ouro.ouro_high_potential"
+)
+
+gold_efficiency.write.mode("overwrite").saveAsTable(
+    "deepdivecatalog_ouro.ouro_efficiency"
+)
+````
 
