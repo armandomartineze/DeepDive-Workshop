@@ -511,7 +511,7 @@ gold_efficiency.write.mode("overwrite").saveAsTable(
 ````
 ---
 
-El sigueinte paso es crear el modelo predictivo, para esto regresa al Worksapce DeepDiveWorkspace y selecciona el notebook "session2-AI-tradicional.ipynb":
+El sigueinte paso es crear el modelo predictivo, para esto regresa al _Worksapce_ **DeepDiveWorkspace** y selecciona el notebook `session2-AI-tradicional.ipynb`:
 
 <p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-3.png" /></p>
 
@@ -920,3 +920,5 @@ print(f"Draw: {result['draw']:.2%}")
 print(f"Argentina win: {result['away_win']:.2%}")
 print(f"Score: {result['home_goals']:.1f} x {result['away_goals']:.1f}")
 ````
+
+Muy bien, hasta ahora se tiene listo el modelo predictivo. Terminaste el laboratorio 2.
