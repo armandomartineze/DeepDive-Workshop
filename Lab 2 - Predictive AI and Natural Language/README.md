@@ -238,7 +238,7 @@ Ahora tienes un entorno completamente configurado y puedes seguir las instruccio
 <a id="sec-3.3"></a>
 ### Creación de Modelo de Machine Learning
 
-Vamos a comenzar con al ejecución de los notebooks, esto nos permitira ingestar trabajar con los datos, enriquecer la informaci{on y entrenar nuestro modelo.
+Vamos a comenzar con al ejecución de los notebooks, esto nos permitira ingestar trabajar con los datos, enriquecer la informacion y entrenar nuestro modelo.
 
 Selecciona el notebook "session1-AIDP.ipynb", haciendo clic en el nombre del archivo:
 
@@ -509,4 +509,414 @@ gold_efficiency.write.mode("overwrite").saveAsTable(
     "deepdivecatalog_ouro.ouro_efficiency"
 )
 ````
+---
 
+El sigueinte paso es crear el modelo predictivo, para esto regresa al Worksapce DeepDiveWorkspace y selecciona el notebook "session2-AI-tradicional.ipynb":
+
+<p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-3.png" /></p>
+
+Una vez que se despliegue el notebook, asegurate que este asignado al cluster (recuerda que se muestra en la esquina superior derecha) y comienza con la ejecucion:
+
+>_Parrafo 1:_ Carga la tabla bronze de partidos y muestra una vista previa
+````
+bronze_df = spark.table("deepdivecatalog_bronze.admin.bronze_wc_matches")
+display(bronze_df.limit(5))
+````
+
+>_Parrafo 2:_ Limpia columnas, convierte fechas/tipos, reemplaza vacíos por nulos, elimina duplicados y filtra filas inválidas
+from pyspark.sql.functions import col, to_date, when
+````
+silver_df = (
+    bronze_df
+    
+    # padronizar nomes de colunas
+    .toDF(*[c.lower().strip() for c in bronze_df.columns])
+    
+    # substituir vazio por null
+    .select([
+        when(col(c) == "", None).otherwise(col(c)).alias(c)
+        for c in bronze_df.columns
+    ])
+    
+    # conversões básicas 
+    .withColumn("match_date", to_date(col("match_date"), "M/d/yyyy"))
+    
+    # remover duplicados simples
+    .dropDuplicates()
+    
+    # remover linhas inválidas essenciais
+    .filter(col("home_team_name").isNotNull())
+    .filter(col("away_team_name").isNotNull())
+)
+
+silver_df = silver_df \
+    .withColumn("home_team_score", col("home_team_score").cast("int")) \
+    .withColumn("away_team_score", col("away_team_score").cast("int")) \
+    .filter(col("home_team_score").isNotNull()) \
+    .filter(col("away_team_score").isNotNull())
+````
+
+>_Parrafo 3:_ Guarda el resultado limpio en la capa plata como tabla Delta.
+````
+silver_df.write \
+    .format("delta") \
+    .mode("overwrite") \
+    .option("overwriteSchema", "true") \
+    .saveAsTable("deepdivecatalog_prata.silver_wc_matches")
+````
+
+>_Parrafo 4:_ Ordena por fecha y convierte el DataFrame de Spark a pandas.
+````
+df_pd = silver_df.orderBy("match_date").toPandas()
+````
+
+>_Parrafo 5:_ Define y calcula el ELO por partido/equipo, generando elo_home, elo_away y elo_diff.
+````
+def expected_score(rating_a, rating_b):
+    return 1 / (1 + 10 ** ((rating_b - rating_a) / 400))
+
+
+def update_elo(rating, expected, actual, k=30):
+    return rating + k * (actual - expected)
+
+
+def compute_elo(df, k=30):
+
+    df = df.sort_values("match_date").copy()
+
+    ratings = {}
+    elo_home = []
+    elo_away = []
+
+    for _, row in df.iterrows():
+
+        home = row["home_team_name"]
+        away = row["away_team_name"]
+
+        ratings.setdefault(home, 1500)
+        ratings.setdefault(away, 1500)
+
+        rating_home = ratings[home]
+        rating_away = ratings[away]
+
+        elo_home.append(rating_home)
+        elo_away.append(rating_away)
+
+        expected_home = expected_score(rating_home, rating_away)
+        expected_away = expected_score(rating_away, rating_home)
+
+        if row["home_team_win"] == 1:
+            actual_home, actual_away = 1, 0
+        elif row["away_team_win"] == 1:
+            actual_home, actual_away = 0, 1
+        else:
+            actual_home = actual_away = 0.5
+
+        ratings[home] = update_elo(rating_home, expected_home, actual_home, k)
+        ratings[away] = update_elo(rating_away, expected_away, actual_away, k)
+
+    df["elo_home"] = elo_home
+    df["elo_away"] = elo_away
+    df["elo_diff"] = df["elo_home"] - df["elo_away"]
+
+    return df, ratings
+
+
+df, ratings = compute_elo(df_pd)
+````
+
+>_Parrafo 6:_ Calcula estadísticas por equipo (goles a favor, en contra y tasa de victorias).
+````
+import pandas as pd
+def create_team_features(df):
+
+    goals_for = pd.concat([
+        df[["home_team_name", "home_team_score"]].rename(
+            columns={"home_team_name": "Team", "home_team_score": "Goals_For"}
+        ),
+        df[["away_team_name", "away_team_score"]].rename(
+            columns={"away_team_name": "Team", "away_team_score": "Goals_For"}
+        )
+    ])
+
+    goals_against = pd.concat([
+        df[["home_team_name", "away_team_score"]].rename(
+            columns={"home_team_name": "Team", "away_team_score": "Goals_Against"}
+        ),
+        df[["away_team_name", "home_team_score"]].rename(
+            columns={"away_team_name": "Team", "home_team_score": "Goals_Against"}
+        )
+    ])
+
+    wins = pd.concat([
+        df[["home_team_name", "home_team_win"]].rename(
+            columns={"home_team_name": "Team", "home_team_win": "Win"}
+        ),
+        df[["away_team_name", "away_team_win"]].rename(
+            columns={"away_team_name": "Team", "away_team_win": "Win"}
+        )
+    ])
+
+    team_stats = goals_for.groupby("Team").mean()
+    team_stats["avg_goals_against"] = goals_against.groupby("Team").mean()
+    team_stats["win_rate"] = wins.groupby("Team").mean()
+
+    return team_stats.fillna(0)
+
+
+team_stats = create_team_features(df)
+````
+
+>_Parrafo 7:_ Une estadísticas del local y visitante al dataset y crea variables diferenciales del partido.
+````
+def add_match_features(df, team_stats):
+
+    df = df.copy()
+
+    df = df.merge(
+        team_stats,
+        left_on="home_team_name",
+        right_index=True,
+        how="left"
+    ).rename(columns={
+        "Goals_For": "teamA_avg_goals",
+        "avg_goals_against": "teamA_avg_conceded",
+        "win_rate": "teamA_win_rate"
+    })
+
+    df = df.merge(
+        team_stats,
+        left_on="away_team_name",
+        right_index=True,
+        how="left",
+        suffixes=("", "_B")
+    ).rename(columns={
+        "Goals_For": "teamB_avg_goals",
+        "avg_goals_against": "teamB_avg_conceded",
+        "win_rate": "teamB_win_rate"
+    })
+
+    df["goals_diff"] = df["teamA_avg_goals"] - df["teamB_avg_goals"]
+    df["defense_diff"] = df["teamA_avg_conceded"] - df["teamB_avg_conceded"]
+    df["win_rate_diff"] = df["teamA_win_rate"] - df["teamB_win_rate"]
+
+    return df
+
+
+df = add_match_features(df, team_stats)
+````
+
+>_Parrafo 8:_ Prepara X y targets (resultado, goles local, goles visitante) para entrenamiento.
+````
+def prepare_training_data(df: pd.DataFrame):
+
+    features = [
+        "elo_diff",
+        "goals_diff",
+        "defense_diff",
+        "win_rate_diff"
+    ]
+
+    X = df[features]
+
+    # Cria labels de derrota-> 0, empate -> 1, vitoria -> 2
+    df["match_result"] = (
+        df["home_team_win"] * 1 +
+        df["away_team_win"] * 2
+    )
+
+    df["match_result"] = pd.to_numeric(df["match_result"], errors="coerce")
+    df = df.dropna(subset=["match_result"])
+    df["match_result"] = df["match_result"].astype(int)
+
+    y_result = df["match_result"]
+    y_home_goals = df["home_team_score"]
+    y_away_goals = df["away_team_score"]
+
+    return X, y_result, y_home_goals, y_away_goals
+
+X, y_result, y_home, y_away = prepare_training_data(df)
+````
+
+>_Parrafo 9:_ Instala scikit-learn en el entorno del notebook.
+````
+!pip install scikit-learn
+````
+>_Parrafo 10:_ Divide train/test y entrena dos clasificadores: Random Forest y Logistic Regression.
+````
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, mean_absolute_error
+
+from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
+from sklearn.linear_model import LogisticRegression
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y_result, test_size=0.2, random_state=42
+)
+
+models = {}
+
+# Modelo 1 - Random Forest
+rf_model = RandomForestClassifier()
+rf_model.fit(X_train, y_train)
+
+models["rf"] = rf_model
+
+# Modelo 2 - Logistic Regression
+log_model = LogisticRegression(max_iter=1000)
+log_model.fit(X_train, y_train)
+
+models["logistic"] = log_model
+````
+
+>_Parrafo 11:_ Evalúa ambos modelos con accuracy sobre el conjunto de prueba.
+````
+for name, model in models.items():
+    preds = model.predict(X_test)
+    acc = accuracy_score(y_test, preds)
+    print(f"{name}: {acc:.4f}")
+````
+
+>_Parrafo 12:_ Entrena dos regresores para predecir goles del local y visitante.
+````
+home_goals_model = RandomForestRegressor()
+home_goals_model.fit(X, y_home)
+
+away_goals_model = RandomForestRegressor()
+away_goals_model.fit(X, y_away)
+````
+
+>_Parrafo 13:_ Filtra partidos de 2022 y evalúa el modelo RF en ese subconjunto.
+````
+df["year"] = pd.to_datetime(df["match_date"]).dt.year
+df_2022 = df[df["year"] == 2022]
+
+X_2022 = df_2022[["elo_diff", "goals_diff", "defense_diff", "win_rate_diff"]]
+y_2022 = df_2022["match_result"]
+
+model = models["rf"]
+
+preds_2022 = model.predict(X_2022)
+
+print("Accuracy Copa 2022:", accuracy_score(y_2022, preds_2022))
+````
+
+>_Parrafo 14:_ Instala matplotlib.
+````
+!pip install matplotlib 
+````
+
+>_Parrafo 15:_Instala seaborn.
+````
+!pip install seaborn
+````
+
+>_Parrafo 16:_ Construye y visualiza la matriz de confusión para la evaluación de 2022.
+````
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+import matplotlib.pyplot as plt
+
+cm = confusion_matrix(y_2022, preds_2022)
+
+labels = ["Draw", "Home Win", "Away Win"]
+
+disp = ConfusionMatrixDisplay(
+    confusion_matrix=cm,
+    display_labels=labels
+)
+
+disp.plot()
+
+plt.title("Confusion Matrix - Copa 2022")
+plt.show()
+````
+
+
+>_Parrafo 17:_ Calcula y grafica la matriz de correlación de features y variable objetivo.
+````
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+features = [
+    "elo_diff",
+    "goals_diff",
+    "defense_diff",
+    "win_rate_diff",
+    "match_result"   # target
+]
+
+corr = df[features].corr()
+
+plt.figure(figsize=(8,6))
+sns.heatmap(
+    corr,
+    annot=True,       # mostra valores
+    fmt=".2f",        # 2 casas decimais
+    cmap="coolwarm",  
+    square=True
+)
+
+plt.title("Matriz de Correlação")
+plt.show()
+````
+
+>_Parrafo 18:_ Guarda en variables globales los modelos y artefactos necesarios para inferencia.
+````
+ratings_global = ratings
+team_stats_global = team_stats
+model_global = models["rf"]
+home_goals_model_global = home_goals_model
+away_goals_model_global = away_goals_model
+````
+
+>_Parrafo 19:_ Define una función de predicción para dos equipos (probabilidades + goles esperados).
+````
+import pandas as pd
+
+def predict_match_simple(home_team, away_team):
+
+    rating_home = ratings_global.get(home_team, 1500)
+    rating_away = ratings_global.get(away_team, 1500)
+
+    elo_diff = rating_home - rating_away
+
+    teamA = team_stats_global.loc[home_team].to_dict() if home_team in team_stats_global.index else {
+        "Goals_For": 1.2, "avg_goals_against": 1.2, "win_rate": 0.5
+    }
+
+    teamB = team_stats_global.loc[away_team].to_dict() if away_team in team_stats_global.index else {
+        "Goals_For": 1.2, "avg_goals_against": 1.2, "win_rate": 0.5
+    }
+
+    features = pd.DataFrame([{
+        "elo_diff": rating_home - rating_away,
+        "goals_diff": teamA["Goals_For"] - teamB["Goals_For"],
+        "defense_diff": teamA["avg_goals_against"] - teamB["avg_goals_against"],
+        "win_rate_diff": teamA["win_rate"] - teamB["win_rate"]
+    }])
+
+    probs = model_global.predict_proba(features)[0]
+
+    home_goals = home_goals_model_global.predict(features)[0]
+    away_goals = away_goals_model_global.predict(features)[0]
+
+    class_mapping = dict(zip(model_global.classes_, probs))
+
+    return {
+        "home_win": float(class_mapping.get(1, 0)),
+        "draw": float(class_mapping.get(0, 0)),
+        "away_win": float(class_mapping.get(2, 0)),
+        "home_goals": float(home_goals),
+        "away_goals": float(away_goals)
+    }
+````
+
+>_Parrafo 20:_ Ejecuta una predicción de ejemplo para Brasil vs Argentina e imprime resultados.
+````
+result = predict_match_simple("Brazil", "Argentina")
+
+print(f"Brazil win: {result['home_win']:.2%}")
+print(f"Draw: {result['draw']:.2%}")
+print(f"Argentina win: {result['away_win']:.2%}")
+print(f"Score: {result['home_goals']:.1f} x {result['away_goals']:.1f}")
+````
