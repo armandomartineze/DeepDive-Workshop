@@ -51,8 +51,8 @@ En **Security Rules → Add Ingress Rules** añade:
 | `0.0.0.0/0` | `8080` | Interfaz web de DPAF |
 | `0.0.0.0/0` | `1521` | Conexión a Oracle Database |
 
-<p align="center"><img width="800" src="./images/image 15.png" alt="Rule 8080"/></p>
-<p align="center"><img src="./images/image 16.png" alt="Rule 1521"/></p>
+<p align="center"><img width="800" src="/images/image 15.png" alt="Rule 8080"/></p>
+<p align="center"><img src="/images/image 16.png" alt="Rule 1521"/></p>
 
 Confirma con **Add Ingress Rules**.
 
