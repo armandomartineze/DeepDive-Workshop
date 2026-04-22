@@ -287,7 +287,7 @@ User ID:        ocid1.user.oc1...        # Identity → My profile
 
 > 🔎 Puedes usar cualquier modelo disponible en el [OCI Generative AI Playground — Chat](https://cloud.oracle.com/ai-service/generative-ai/playground/chat) de la consola o en la documentación oficial [Generative AI Models by Region](https://docs.oracle.com/en-us/iaas/Content/generative-ai/model-endpoint-regions.htm). Si tu región ofrece otros modelos y prefieres usarlos, recuerda cambiar **ambas cosas**: el `Model id` y el `Endpoint`.
 
-<p align="center"><img src="./images/image 29.png" alt="LLM form"/></p>
+<p align="center"><img src="/images/image 29.png" alt="LLM form"/></p>
 
 #### Configuración del modelo de Embeddings
 
