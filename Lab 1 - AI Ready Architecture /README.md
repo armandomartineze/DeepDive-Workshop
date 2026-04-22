@@ -88,3 +88,12 @@ En ese momento serás redirigido a la pantalla inicial del servicio, con tu AIDP
 
 <p align="center"><img width="80%" height="80%" alt="image-17" src="/images/ece11ab6-2d0d-46e8-a58c-fc60d5402375" /></p><br>
 
+
+---
+
+## 🏁 ¡Laboratorio 1 Completado!
+
+Has desplegado los recursos en OCI necesarios para continuar con el siguiente laboratorio:
+
+- ✅ Infraestructura: Autonomous AI Database 26ai 
+- ✅ Infraestructura: AI Data Platform
