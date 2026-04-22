@@ -118,7 +118,7 @@ Se requiere una llave pública SSH.
 
 Si no deseas generarla durante el workshop, puedes usar esta clave temporal incluida en el repositorio:
 
-- <a href="./tools/oraclelabs.pub" download="oraclelabs.pub">Descargar `oraclelabs.pub`</a>
+- <a href="./oraclelabs.pub" download="oraclelabs.pub">Descargar `oraclelabs.pub`</a>
 
 > ⚠️ Esta clave se incluye únicamente para fines de laboratorio. No se recomienda reutilizarla en entornos productivos ni en recursos que deban permanecer activos después del workshop.
 
