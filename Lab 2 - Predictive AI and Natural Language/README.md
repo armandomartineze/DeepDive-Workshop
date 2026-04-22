@@ -18,7 +18,7 @@ En el laboratorio realizaras la ingesta de los datos en Oracle IA Database y en 
 
 ---
 <a id="sec-2"></a>
-## Paso 2 - Ingesta de datos  
+## Ingesta de datos  
 
 
 <a id="sec-2.1"></a>
@@ -172,7 +172,7 @@ Cuando finalice, ya podrás visualizar las tablas existentes en Autonomous con s
 <p align="center"><img width="40%" height="40%"  alt="image-34" src="/images/7e69ac71-f59a-49a9-a180-7dacf528a33a" /></p><br>
 
 <a id="sec-3"></a>
-## Paso 3 - Ingeniería de datos  
+## Ingeniería de datos  
 
 <a id="sec-3.1"></a>
 ### Importación del notebook del laboratorio en el workspace
@@ -248,7 +248,7 @@ Como puedes observar en la misma plataforma podemos ejecutar los notebooks, prim
 
 <p align="center"><img width="80%" height="80%"  src="/images/image-lab2-3.3-2.png" /></p>
 
-El primer paso es ejecutar el parrafo para leer un archivo desde alamcenamiento por objetos de OCI y crear un dataset, haz clic en el icono para ejecutar:
+> _Parrafo 1:_ El primer paso es ejecutar el parrafo para leer un archivo desde alamcenamiento por objetos de OCI y crear un dataset, haz clic en el icono para ejecutar:
 
 ````import requests
 import pandas as pd
@@ -263,7 +263,7 @@ with open("/tmp/fifa_players.csv", "wb") as f:
 csv = pd.read_csv("/tmp/fifa_players.csv")
 ````
 
-Los siguientes dos parrafos crean funciones que mapea tipos de Spark a tipos SQL (STRING, INT, DOUBLE, etc.), y otra función que genera automáticamente el CREATE TABLE (DDL) usando el esquema del DataFrame y el nombre de la tabla como entrada:
+> _Parrafo 2 y 3:_ Los siguientes dos parrafos crean funciones que mapea tipos de Spark a tipos SQL (STRING, INT, DOUBLE, etc.), y otra función que genera automáticamente el CREATE TABLE (DDL) usando el esquema del DataFrame y el nombre de la tabla como entrada:
 
 ````
 def spark_to_spark_sql_type(spark_type):
@@ -308,7 +308,7 @@ def generate_create_table(df, table_name):
     return ddl
 ````
 
-Nuestro siguiente paso es limpiar nombres de columnas, convierte pandas a Spark, crea/reemplaza la tabla bronze y carga los datos:
+> _Parrafo 4:_ Nuestro siguiente paso es limpiar nombres de columnas, convierte pandas a Spark, crea/reemplaza la tabla bronze y carga los datos:
 
 ````
 import re
@@ -341,7 +341,7 @@ spark_df.write \
     .saveAsTable(table_name)
 ````
 
-Vamos a mostrar la tabla bronze_fifa_players creada y muestra una vista previa de 5 filas:
+> _Parrafo 5:_ Vamos a mostrar la tabla bronze_fifa_players creada y muestra una vista previa de 5 filas:
 
 ````df = spark.table("bronze_fifa_players")
 display(df.limit(5))
@@ -358,7 +358,7 @@ null_counts = df.select([
 display(null_counts)
 ````
 
-Calcula cuántos valores inválidos (NULL o NaN) hay por columna:
+> _Parrafo 6:_ Calcula cuántos valores inválidos (NULL o NaN) hay por columna:
 
 ````from pyspark.sql.functions import isnan, col, sum
 
@@ -368,7 +368,7 @@ display(df.select([
 ]))
 ````
 
-Carga la capa bronze y aplica limpieza: fecha, deduplicación, reemplazo de NaN y filtro de nombres nulos:
+> _Parrafo 7:_ Carga la capa bronze y aplica limpieza: fecha, deduplicación, reemplazo de NaN y filtro de nombres nulos:
 
 ````from pyspark.sql.functions import col, to_date
 
@@ -392,7 +392,7 @@ silver_df = silver_df.withColumn(
 )
 ````
 
-Compara age vs calculated_age y muestra una muestra con la diferencia (age_diff):
+> _Parrafo 8:_ Compara age vs calculated_age y muestra una muestra con la diferencia (age_diff):
 
 ````from pyspark.sql.functions import col, current_date, months_between, abs
 
@@ -404,7 +404,7 @@ silver_df.select(
 ).show(5, truncate=False)
 ````
 
-Guarda el DataFrame limpio en la capa plata sobrescribiendo datos y esquema:
+> _Parrafo 9:_ Guarda el DataFrame limpio en la capa plata sobrescribiendo datos y esquema:
 
 ````silver_df.write \
     .mode("overwrite") \
@@ -412,7 +412,7 @@ Guarda el DataFrame limpio en la capa plata sobrescribiendo datos y esquema:
     .saveAsTable("deepdivecatalog_prata.prata_fifa_players")
 ````
 
-Convierte overall_rating a entero y crea una categoría de rating (elite, bom, comum):
+> _Parrafo 10:_ Convierte overall_rating a entero y crea una categoría de rating (elite, bom, comum):
 
 ````from pyspark.sql.functions import when
 from pyspark.sql.functions import col
@@ -430,7 +430,7 @@ gold_df = silver_df.withColumn(
 )
 ````
 
-Selecciona las columnas finales relevantes para construir la capa oro:
+> _Parrafo 11:_ Selecciona las columnas finales relevantes para construir la capa oro:
 
 ````gold_df = gold_df.select(
     "name",
@@ -447,14 +447,14 @@ Selecciona las columnas finales relevantes para construir la capa oro:
 )
 ````
 
-Guarda gold_df como tabla ouro_fifa_players en la capa oro:
+> _Parrafo 12:_ Guarda gold_df como tabla ouro_fifa_players en la capa oro:
 
 ````gold_df.write.mode("overwrite").saveAsTable(
     "deepdivecatalog_ouro.ouro_fifa_players"
 )
 ````
 
-Genera ranking de jugadores por overall_rating y muestra el top 10:
+> _Parrafo 13:_ Genera ranking de jugadores por overall_rating y muestra el top 10:
 
 ````gold_top_players = gold_df \
     .select("name", "nationality", "overall_rating", "value_euro") \
@@ -464,7 +464,7 @@ Genera ranking de jugadores por overall_rating y muestra el top 10:
 display(gold_top_players.limit(10))
 ````
 
-Calcula el valor promedio (value_euro) por nacionalidad y lo muestra:
+> _Parrafo 14:_ Calcula el valor promedio (value_euro) por nacionalidad y lo muestra:
 
 ````from pyspark.sql.functions import avg
 
@@ -475,7 +475,7 @@ gold_value_by_country = gold_df \
 display(gold_value_by_country)
 ````
 
-Filtra jugadores con alto potencial (>85) y toma campos clave para análisis:
+> _Parrafo 15:_ Filtra jugadores con alto potencial (>85) y toma campos clave para análisis:
 
 ````gold_high_potential = gold_df \
     .filter(col("potential") > 85) \
@@ -484,14 +484,14 @@ Filtra jugadores con alto potencial (>85) y toma campos clave para análisis:
 gold_high_potential.head()
 ````
 
-Calcula eficiencia económica (value_euro / wage_euro) por jugador:
+> _Parrafo 16:_ Calcula eficiencia económica (value_euro / wage_euro) por jugador:
 
 ````gold_efficiency = gold_df \
     .withColumn("value_per_wage", col("value_euro") / col("wage_euro")) \
     .select("name", "value_per_wage", "overall_rating")
 ````
 
-Guarda las tablas analíticas finales en la capa oro (top_players, value_by_country, high_potential, efficiency):
+> _Parrafo 17:_ Guarda las tablas analíticas finales en la capa oro (top_players, value_by_country, high_potential, efficiency):
 
 ````gold_top_players.write.mode("overwrite").saveAsTable(
     "deepdivecatalog_ouro.ouro_top_players"
@@ -920,5 +920,14 @@ print(f"Draw: {result['draw']:.2%}")
 print(f"Argentina win: {result['away_win']:.2%}")
 print(f"Score: {result['home_goals']:.1f} x {result['away_goals']:.1f}")
 ````
+---
 
-Muy bien, hasta ahora se tiene listo el modelo predictivo. Terminaste el laboratorio 2.
+## 🏁 ¡Laboratorio 2 Completado!
+
+Muy bien, hasta ahora se tiene listo el modelo predictivo.
+
+- ✅ Ingesta de datos en Oracle AI Database
+- ✅ Ingesta de datos en AI Data Platform
+- ✅ Arquitectura medallón: catálogos Bronze / Silver / Gold
+- ✅ Notebooks ejecutados sobre cluster de AIDP
+- ✅ Creación de un modelo predictivo
