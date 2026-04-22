@@ -1,7 +1,9 @@
 <div align="center">
-# 🤖 Lab 3 - Building Intelligent Agents
+
+  # 🤖 Lab 3 - Building Intelligent Agents
 
 [![Oracle AI Database Private Agent Factory](https://img.shields.io/badge/DPAF%20-OCI-C74634?style=for-the-badge)](https://docs.oracle.com/en/database/oracle/agent-factory/index.html)
+[![Duration](https://img.shields.io/badge/Duración-%7E1%20hrs-orange?style=for-the-badge)]()
 
 *Aprovisionamos desde Marketplace una factoría privada de agentes sobre Oracle Database 26ai, la integramos con nuestra Autonomous y construimos agentes Text‑to‑SQL y flujos conversacionales.*
 
@@ -10,13 +12,14 @@
 ---
 ## Contenido
 - [3.1 Creación de la red (VCN)](#sec-3.1)
-- [3.2 Despliegue desde OCI Marketplace](#32-despliegue-desde-oci-marketplace)
-- [3.3 Registro inicial y configuración de modelos](#33-registro-inicial-y-configuración-de-modelos)
-- [3.4 Navegación por la plataforma](#34-navegación-por-la-plataforma)
-- [3.5 Lab · Data Analysis Agent (Text‑to‑SQL)](#35-lab--data-analysis-agent-text-to-sql)
-- [3.6 Lab · Agent Builder — Narrador futbolístico](#36-lab--agent-builder--narrador-futbolístico)
+- [3.2 Despliegue desde OCI Marketplace](#sec-3.2)
+- [3.3 Registro inicial y configuración de modelos](#sec-3.3)
+- [3.4 Navegación por la plataforma](#sec-3.4)
+- [3.5 Lab · Data Analysis Agent (Text‑to‑SQL)](#sec-3.5)
+- [3.6 Lab · Agent Builder — Narrador futbolístico](#sec-3.6)
 ---
 
+<a id="sec-3.1"></a>
 ### 3.1 Creación de la red (VCN)
 
 Navega a **Networking → Virtual Cloud Networks** y confirma el compartment.
@@ -58,6 +61,7 @@ Confirma con **Add Ingress Rules**.
 
 ---
 
+<a id="sec-3.2"></a>
 ### 3.2 Despliegue desde OCI Marketplace
 
 🔗 [Oracle AI Database Private Agent Factory · Marketplace Listing](https://marketplace.oracle.com/listings/oracle-ai-database-private-agent-factory/ocid1.mktpublisting.oc1.iad.amaaaaaaknuwtjiawz3nex7vjo2usqfv3jr5v6scz5uzvg7mef6ykxuc5zaa)
@@ -137,6 +141,7 @@ Revisa la configuración y lanza el stack. El proceso toma **3–4 minutos**. Cu
 <p align="center"><img src="/images/instalacion_AF.jpg" alt="Instalación DPAF"/></p>
 ---
 
+<a id="sec-3.3"></a>
 ### 3.3 Registro inicial y configuración de modelos
 
 Abre el link entregado por el stack. Verás la página de **registro inicial**:
@@ -332,6 +337,7 @@ Validación después del reinicio:
 3. Continúa con la navegación de la plataforma y los laboratorios.
 ---
 
+<a id="sec-3.4"></a>
 ### 3.4 Navegación por la plataforma
 
 Al finalizar, accederás a la **home de DPAF**:
@@ -342,6 +348,7 @@ Ya puedes construir tus propios flujos y agentes de IA.
 
 ---
 
+<a id="sec-3.5"></a>
 ### 3.5 Lab · Data Analysis Agent (Text‑to‑SQL)
 
 > ⚽ **Caso de uso:** construirás un agente de análisis sobre estadísticas de la **Copa Mundial de Fútbol 2022**. El agente entenderá preguntas en lenguaje natural, las traducirá a SQL y devolverá respuestas, tablas y visualizaciones — sin escribir una sola línea de código.
@@ -419,6 +426,7 @@ Haz clic en el botón **SQL** para auditar la consulta generada por el agente.
 
 ---
 
+<a id="sec-3.6"></a>
 ### 3.6 Lab · Agent Builder — Narrador futbolístico
 
 Construirás un flujo visual en **Agent Builder** en dos etapas:
