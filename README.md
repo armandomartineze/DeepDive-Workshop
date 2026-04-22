@@ -62,7 +62,24 @@ Dividimos la ejecución del workshop en los siguientes laboratorios:
  - 📥 [Lab 2 - Predictive AI and Natural Language](/Lab%202%20-%20Predictive%20AI%20and%20Natural%20Language)
  - 🤖 [Lab 3 - Building Intelligent Agents](/Lab%203%20-%20Building%20Intelligent%20Agents%20)
    
+---
 
+## 🔗 Recursos adicionales
+
+- 📘 [Oracle AI Developer Hub](https://github.com/oracle-devrel/oracle-ai-developer-hub)
+- 📙 [Oracle Technology Engineering · AI](https://github.com/oracle-devrel/technology-engineering/tree/main/ai)
+- 📗 [OCI AI Industry Database Solutions](https://github.com/oracle-devrel/oci-ai-industry-dbsolutions)
+- 🎓 [Oracle University · AI Courses](https://education.oracle.com)
+- 📄 [Oracle AI Database Documentation](https://docs.oracle.com/en/database/oracle/oracle-database/)
+- 🛒 [Oracle Marketplace](https://cloudmarketplace.oracle.com/)
+
+
+<div align="center">
+
+**Oracle Cloud Infrastructure · DeepDive 2026**
+*Hecho con ❤️ por el equipo de AI · LAD*
+
+</div>
 
 
 
