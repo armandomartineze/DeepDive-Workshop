@@ -571,7 +571,7 @@ Pregunta: ¿Cuántos partidos se jugaron en Doha?
 Respuesta esperada:
 SELECT COUNT(*) AS numero_de_partidos_en_doha
 FROM "ADMIN"."BRONZE_WC_MATCHES"
-WHERE VENUE_CITY LIKE '%Doha%'
+WHERE "CITY_NAME" LIKE '%Doha%'
 ```
 
 Conecta `Chat input.Message` → `Prompt.question`.
