@@ -172,6 +172,28 @@ Cuando finalice, ya podrás visualizar las tablas existentes en Autonomous con s
 
 <p align="center"><img width="40%" height="40%"  alt="image-34" src="/images/7e69ac71-f59a-49a9-a180-7dacf528a33a" /></p><br>
 
+#### 🥈 Catálogo Silver (Plata) — Standard
+
+| Campo | Valor |
+|---|---|
+| **Catalog name** | `deepdivecatalog_prata` |
+| **Description** | *Catálogo de datos limpios / Silver layer* |
+| **Catalog type** | `Standard catalog` |
+| **Compartment** | `demo` |
+
+<p align="center"><img width="500" src="/images/image 41.png" alt="Silver"/></p>
+
+#### 🥇 Catálogo Gold (Oro) — Standard
+
+| Campo | Valor |
+|---|---|
+| **Catalog name** | `deepdivecatalog_ouro` |
+| **Description** | *Catálogo de datos consumibles / Gold layer* |
+| **Catalog type** | `Standard catalog` |
+| **Compartment** | `demo` |
+
+<p align="center"><img width="500" src="/images/image 42.png" alt="Gold"/></p>
+
 <a id="sec-3"></a>
 ## Ingeniería de datos  
 
