@@ -544,34 +544,67 @@ Seguimos trabajando sobre el flujo de la Parte 1.
 Añade un bloque **Prompt** con este **Template**:
 
 ```text
-Eres un agente que genera consultas SQL para responder a la siguiente pregunta:
+Eres un agente que genera consultas SQL en Oracle para responder a la siguiente pregunta:
 
 {{question}}
 
-Tienes una tabla de datos de partidos de fútbol con la siguiente estructura.
+Tienes una tabla de partidos de fútbol con la siguiente estructura:
 
 CREATE TABLE "ADMIN"."BRONZE_WC_MATCHES"
- ( "HOME_TEAM_NAME"   VARCHAR2(64),
-   "AWAY_TEAM_NAME"   VARCHAR2(64),
-   "HOME_TEAM_ID"     NUMBER,
-   "AWAY_TEAM_ID"     NUMBER,
-   "HOME_TEAM_GOALS"  NUMBER,
-   "AWAY_TEAM_GOALS"  NUMBER,
-   "DATE_RW"          TIMESTAMP(6) WITH TIME ZONE,
-   "REFEREE"          VARCHAR2(64),
-   "VENUE_NAME"       VARCHAR2(64),
-   "VENUE_CITY"       VARCHAR2(64)
- );
+(
+  "KEY_ID" NUMBER,
+  "TOURNAMENT_ID" VARCHAR2(16),
+  "TOURNAMENT_NAME" VARCHAR2(64),
+  "MATCH_ID" VARCHAR2(16),
+  "MATCH_NAME" VARCHAR2(128),
+  "STAGE_NAME" VARCHAR2(32),
+  "GROUP_NAME" VARCHAR2(32),
+  "GROUP_STAGE" NUMBER,
+  "KNOCKOUT_STAGE" NUMBER,
+  "REPLAYED" NUMBER,
+  "REPLAY" NUMBER,
+  "MATCH_DATE" DATE,
+  "MATCH_TIME" VARCHAR2(5),
+  "STADIUM_ID" VARCHAR2(16),
+  "STADIUM_NAME" VARCHAR2(64),
+  "CITY_NAME" VARCHAR2(64),
+  "COUNTRY_NAME" VARCHAR2(64),
+  "HOME_TEAM_ID" VARCHAR2(16),
+  "HOME_TEAM_NAME" VARCHAR2(64),
+  "HOME_TEAM_CODE" VARCHAR2(8),
+  "AWAY_TEAM_ID" VARCHAR2(16),
+  "AWAY_TEAM_NAME" VARCHAR2(64),
+  "AWAY_TEAM_CODE" VARCHAR2(8),
+  "SCORE" VARCHAR2(16),
+  "HOME_TEAM_SCORE" NUMBER,
+  "AWAY_TEAM_SCORE" NUMBER,
+  "HOME_TEAM_SCORE_MARGIN" NUMBER,
+  "AWAY_TEAM_SCORE_MARGIN" NUMBER,
+  "EXTRA_TIME" NUMBER,
+  "PENALTY_SHOOTOUT" NUMBER,
+  "SCORE_PENALTIES" VARCHAR2(16),
+  "HOME_TEAM_SCORE_PENALTIES" NUMBER,
+  "AWAY_TEAM_SCORE_PENALTIES" NUMBER,
+  "RESULT" VARCHAR2(32),
+  "HOME_TEAM_WIN" NUMBER,
+  "AWAY_TEAM_WIN" NUMBER,
+  "DRAW" NUMBER
+)
 
-Debes generar únicamente código SQL, sin comentarios (ni `--` ni `/** */`).
-Cualquier texto adicional constituye un error grave. No finalices el SQL con `;`.
+Reglas obligatorias:
+1. Devuelve únicamente código SQL.
+2. No incluyas comentarios (`--` ni `/* */`).
+3. No incluyas explicaciones, encabezados ni texto adicional.
+4. No finalices el SQL con `;`.
+5. Usa siempre la tabla "ADMIN"."BRONZE_WC_MATCHES".
+6. Usa únicamente nombres de columnas en inglés con `_`, exactamente como están definidos arriba.
 
 Ejemplo:
-Pregunta: ¿Cuántos partidos se jugaron en Doha?
+Pregunta: ¿Cuántos partidos se jugaron en Montevideo?
 Respuesta esperada:
-SELECT COUNT(*) AS numero_de_partidos_en_doha
+SELECT COUNT(*) AS MATCHES_IN_MONTEVIDEO
 FROM "ADMIN"."BRONZE_WC_MATCHES"
-WHERE "CITY_NAME" LIKE '%Doha%'
+WHERE "CITY_NAME" LIKE '%Montevideo%'
 ```
 
 Conecta `Chat input.Message` → `Prompt.question`.
