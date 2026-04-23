@@ -91,7 +91,8 @@ Ejecuta el comando con el botón verde `Run Statement`.
 
 Este comando crea una tabla con la estructura requerida, con todas las columnas y tipos listados. Luego copiaremos los datos a la tabla ejecutando el siguiente comando:
 
-````BEGIN
+````
+BEGIN
   DBMS_CLOUD.COPY_DATA(
     table_name => 'BRONZE_WC_MATCHES',
     credential_name => NULL,
